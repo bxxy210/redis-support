@@ -12,8 +12,8 @@ public class RedisConnectArgs {
     private String password;
     private int maxActive;
     private int timeout;
-    private int maxIdel;
-    private int minIdel;
+    private int maxIdle;
+    private int maxWait;
     private int timeBetweenEvictionRunsMillis;
     private int minEvictableIdleTimeMillis;
     private boolean testOnBorrow;
