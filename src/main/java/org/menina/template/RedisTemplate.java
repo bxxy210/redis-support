@@ -1,6 +1,5 @@
 package org.menina.template;
 
-import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -11,10 +10,11 @@ import java.lang.reflect.Method;
 /**
  * Created by meninaChimp on 2016/9/18 0018.
  */
-@Component
 public class RedisTemplate {
 
     private JedisPool jedispool;
+
+    private RedisTemplate(){}
 
     public RedisTemplate(JedisPool jedispool){
         this.jedispool = jedispool;
