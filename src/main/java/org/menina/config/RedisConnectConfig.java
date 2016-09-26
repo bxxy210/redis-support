@@ -15,8 +15,8 @@ import java.util.Properties;
 /**
  * Created by meninaChimp on 2016/9/19 0019.
  */
-@Component
 @Slf4j
+@Component
 public class RedisConnectConfig {
 
     private RedisConnectArgs redisConnectArgs;
@@ -31,7 +31,7 @@ public class RedisConnectConfig {
         InputStream input = null;
         input = this.getClass().getClassLoader().getResourceAsStream("redis.properties");
         if(input == null){
-            log.warn("not found redis.properties, the defaultRedis.properties will be uesd");
+            log.warn("not found redis.properties, the defaultRedis.properties will be load");
             input = this.getClass().getClassLoader().getResourceAsStream("redisDefault.properties");
         }
 
@@ -39,7 +39,7 @@ public class RedisConnectConfig {
         try {
             properties.load(input);
         } catch (IOException e) {
-            throw new IllegalStateException(e.getMessage());
+            throw new IllegalStateException("exception occur when load redis properties", e);
         }
 
         try {

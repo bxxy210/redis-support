@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by meninaChimp on 2016/9/19 0019.
  */
 @Slf4j
-public abstract class AbstractRedisSupport implements IRedisSupport{
+public abstract class AbstractRedisSupport implements RedisSupport {
 
     @Autowired
     private RedisTemplate redisTemplate;
