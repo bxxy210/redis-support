@@ -55,7 +55,7 @@ public class RedisConnectConfig {
         this.redisConnectArgs.setTimeout(Integer.parseInt(properties.getProperty("redis.timeout", "0")));
         this.redisConnectArgs.setMaxActive(Integer.parseInt(properties.getProperty("redis.maxActive", "1000")));
         this.redisConnectArgs.setMaxIdle(Integer.parseInt(properties.getProperty("redis.maxIdle", "0")));
-        this.redisConnectArgs.setMaxWait(Integer.parseInt(properties.getProperty("redis.maxWait", "0")));
+        this.redisConnectArgs.setMaxWaitMills(Integer.parseInt(properties.getProperty("redis.maxWaitMills", "0")));
         this.redisConnectArgs.setMinEvictableIdleTimeMillis(Integer.parseInt(properties.getProperty("redis.minEvictableIdleTimeMillis", "3000")));
         this.redisConnectArgs.setTestOnBorrow(Boolean.parseBoolean(properties.getProperty("redis.testOnBorrow", "true")));
         this.redisConnectArgs.setTestOnCreate(Boolean.parseBoolean(properties.getProperty("redis.testOnCreate", "false")));
@@ -63,6 +63,7 @@ public class RedisConnectConfig {
         this.redisConnectArgs.setTimeBetweenEvictionRunsMillis(Integer.parseInt(properties.getProperty("redis.timeBetweenEvictionRunsMillis", "3000")));
         this.redisConnectArgs.setDb(Integer.parseInt(properties.getProperty("redis.db", "0")));
         this.redisConnectArgs.setUnlock(Boolean.parseBoolean(properties.getProperty("redis.unlock", "false")));
+        this.logRedisArgs(redisConnectArgs);
     }
 
     private JedisPoolConfig jedisPoolConfig() {
@@ -83,5 +84,21 @@ public class RedisConnectConfig {
                 "".equals(this.redisConnectArgs.getPassword()) ? null : this.redisConnectArgs.getPassword(),
                 this.redisConnectArgs.getDb());
         return jedisPool;
+    }
+
+    private void logRedisArgs(RedisConnectArgs redisConnectArgs){
+        log.info("redis.host:" + redisConnectArgs.getHost());
+        log.info("redis.port:" + redisConnectArgs.getPort());
+        log.info("redis.timeout:" + redisConnectArgs.getTimeout());
+        log.info("redis.maxIdle:" + redisConnectArgs.getMaxIdle());
+        log.info("redis.maxActive:" + redisConnectArgs.getMaxActive());
+        log.info("redis.maxWaitMillis:" + redisConnectArgs.getMaxWaitMills());
+        log.info("redis.timeBetweenEvictionRunsMillis:" + redisConnectArgs.getTimeBetweenEvictionRunsMillis());
+        log.info("redis.minEvictableIdleTimeMillis:" + redisConnectArgs.getMinEvictableIdleTimeMillis());
+        log.info("redis.testOnBorrow:" + redisConnectArgs.isTestOnBorrow());
+        log.info("redis.testOnCreate:" + redisConnectArgs.isTestOnCreate());
+        log.info("redis.encode:" + redisConnectArgs.getEncode());
+        log.info("redis.unlock:" + redisConnectArgs.isUnlock());
+        log.info("redis.db:" + redisConnectArgs.getDb());
     }
 }

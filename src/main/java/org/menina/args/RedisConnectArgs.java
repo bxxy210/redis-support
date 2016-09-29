@@ -13,7 +13,7 @@ public class RedisConnectArgs {
     private int maxActive;
     private int timeout;
     private int maxIdle;
-    private int maxWait;
+    private int maxWaitMills;
     private int timeBetweenEvictionRunsMillis;
     private int minEvictableIdleTimeMillis;
     private boolean testOnBorrow;
