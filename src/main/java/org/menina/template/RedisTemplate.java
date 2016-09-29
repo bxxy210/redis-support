@@ -1,5 +1,6 @@
 package org.menina.template;
 
+import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -10,6 +11,7 @@ import java.lang.reflect.Method;
 /**
  * Created by meninaChimp on 2016/9/18 0018.
  */
+@Slf4j
 public class RedisTemplate {
 
     private JedisPool jedispool;
@@ -22,6 +24,7 @@ public class RedisTemplate {
 
     public <T extends Serializable> T redisInvoke(String methodName, Object... args) {
         Jedis jedis = jedispool.getResource();
+        T result = null;
         try{
             Class[] argsType = new Class[args.length];
             for(int i = 0; i< args.length; i++){
@@ -29,16 +32,16 @@ public class RedisTemplate {
             }
 
             Method method = jedis.getClass().getDeclaredMethod(methodName, argsType);
-            return (T)method.invoke(jedis, args);
+            result = (T)method.invoke(jedis, args);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }finally {
             jedis.close();
-            return null;
+            return result;
         }
     }
 }
