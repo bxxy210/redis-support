@@ -1,3 +1,2 @@
 # redis-support
-Redis组件。
-暂定支持读写数据源，免配置，支持redis，codis。
+Redis组件，免配置，提供对象序列化支持，支持redis，codis。
