@@ -1,9 +1,16 @@
 package org.menina;
 
+import org.menina.utils.TimeUnit;
+import redis.clients.jedis.Transaction;
+
 /**
  * Created by meninaChimp on 2016/9/19 0019.
  */
 public interface RedisSupport {
+
+    /**
+     * String操作
+     */
 
     /**
      * 获取一个值
@@ -27,13 +34,13 @@ public interface RedisSupport {
     void expireAt(String key, long unixTimeSeconds);
 
     /**
-     * 指定键在传入秒数后超时过期
+     * 指定键在传入时间后超时过期
      * @param key
-     * @param seconds
+     * @param time
      * @return 1 设置成功
      *          0 设置失败
      */
-    Long expire(String key, int seconds);
+    Long expire(String key, int time, TimeUnit unit);
 
     /**
      * 键剩余存活毫秒数
@@ -56,4 +63,24 @@ public interface RedisSupport {
      */
     void persist(String key);
 
+    /**
+     * 事务
+     */
+
+    /**
+     * 监视键的值是否被其他线程改变
+     * @param keys
+     */
+    void watch(String... keys);
+
+    /**
+     * 取消watch操作对所有键的监视，使用时请注意影响范围
+     */
+    void unwatch();
+
+    /**
+     * 开启一个事务
+     * 执行事务请调用Transaction.exec()方法
+     */
+    Transaction multi();
 }
