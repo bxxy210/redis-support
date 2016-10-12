@@ -14,7 +14,7 @@ import redis.clients.jedis.Transaction;
 public abstract class AbstractRedisSupport implements RedisSupport {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    protected RedisTemplate redisTemplate;
 
     public String get(String key) {
         if(StringUtils.isEmpty(key)){
@@ -59,6 +59,65 @@ public abstract class AbstractRedisSupport implements RedisSupport {
         redisTemplate.redisInvoke("persist", key);
     }
 
+    @Override
+    public Boolean exists(String key) {
+        return redisTemplate.redisInvoke("exists", key);
+    }
+
+    @Override
+    public Long append(String key, String value) {
+        return redisTemplate.redisInvoke("append", key, value);
+    }
+
+    @Override
+    public String substr(String key, int start, int end) {
+        return redisTemplate.redisInvoke("substr", start, end);
+    }
+
+    @Override
+    public void setex(String key, int seconds, String value) {
+        redisTemplate.redisInvoke("setex", key, seconds, value);
+    }
+
+    @Override
+    public String type(String key) {
+        return redisTemplate.redisInvoke("type", key);
+    }
+
+    @Override
+    public void hset(String key, String field, String value) {
+        redisTemplate.redisInvoke("hset", key, field, value);
+    }
+
+    @Override
+    public String hget(String key, String field) {
+        return redisTemplate.redisInvoke("hget", key, field);
+    }
+
+    @Override
+    public Long setnx(String key, String value) {
+        return redisTemplate.redisInvoke("setnx", key, value);
+    }
+
+    @Override
+    public Long decr(String key) {
+        return redisTemplate.redisInvoke("decr", key);
+    }
+
+    @Override
+    public Long decrBy(String key, long number) {
+        return redisTemplate.redisInvoke("decrby", key, number);
+    }
+
+    @Override
+    public Long incr(String key) {
+        return redisTemplate.redisInvoke("incr", key);
+    }
+
+    @Override
+    public Long incrBy(String key, long number) {
+        return redisTemplate.redisInvoke("incrby", key, number);
+    }
 
     @Override
     public void watch(String... keys) {

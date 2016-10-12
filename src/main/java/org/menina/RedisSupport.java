@@ -1,7 +1,10 @@
 package org.menina;
 
+import org.menina.exception.CodisNotSupportException;
 import org.menina.utils.TimeUnit;
 import redis.clients.jedis.Transaction;
+
+import java.util.Set;
 
 /**
  * Created by meninaChimp on 2016/9/19 0019.
@@ -62,6 +65,117 @@ public interface RedisSupport {
      * @return
      */
     void persist(String key);
+
+    /**
+     * 键值对是否存在
+     * @param key
+     * @return
+     */
+    Boolean exists(String key);
+
+    /**
+     * 键的值后追加内容
+     * @param key
+     * @param value
+     * @return
+     */
+    Long append(String key, String value);
+
+    /**
+     * 截取键的值返回, 可使用getrange方法替换
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
+    String substr(String key, int start, int end);
+
+    /**
+     * 附带超时功能的保存键值对
+     * @param key
+     * @param seconds
+     * @param value
+     */
+    void setex(String key, int seconds, String value);
+
+    /**
+     * 键的值的类型
+     * @param key
+     * @return
+     */
+    String type(String key);
+
+    /**
+     * 获取所有符合模式的键
+     * db数据量大于1w请慎用（1.cpu消耗上升 2.Time Out）
+     * @param pattern
+     * @return
+     * @throws CodisNotSupportException
+     */
+    Set<String> keys(String pattern) throws CodisNotSupportException;
+
+    /**
+     * hash操作
+     */
+
+    /**
+     * 保存一个键-域-值对
+     * @param key
+     * @param field
+     * @param value
+     */
+    void hset(String key, String field, String value);
+
+    /**
+     * 获取指定键，域下的值
+     * @param key
+     * @param field
+     * @return
+     */
+    String hget(String key, String field);
+
+    /**
+     * 原子操作
+     */
+
+    /**
+     * 键不存在时保存
+     * @param key
+     * @param value
+     * @return 1 保存成功
+     * 			0 键已存在，保存失败
+     */
+    Long setnx(String key, String value);
+
+    /**
+     * 键的值自减操作, 使用时请确保键的值是可转换为Number类型的, 减数为1
+     * @param key
+     * @return
+     */
+    Long decr(String key);
+
+    /**
+     * 键的值自减操作，使用时请确保键的值是可转换为Number类型的, 减数为number
+     * @param key
+     * @param number
+     * @return
+     */
+    Long decrBy(String key, long number);
+
+    /**
+     * 键的值自增操作，使用时请确保键的值是可转换为Number类型的, 增数为1
+     * @param key
+     * @return
+     */
+    Long incr(String key);
+
+    /**
+     * 键的值自增操作，使用时请确保键的值是可转换为Number类型的, 增数为number
+     * @param key
+     * @param number
+     * @return
+     */
+    Long incrBy(String key, long number);
 
     /**
      * 事务
